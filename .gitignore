@@ -1,2 +1,9 @@
 *~
 auto
+*.aux
+*.fls
+*.log
+*.out
+*.pdf
+*.toc
+*.fdb_latexmk

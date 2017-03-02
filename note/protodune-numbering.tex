@@ -1,0 +1,194 @@
+\documentclass[letterpaper,twoside,onecolumn,report]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\counterwithout{section}{chapter}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\newcommand{\fixme}[1]{\textcolor{red}{\textit{#1}}}
+
+\title{Rosetta Technote: protoDUNE Numbering Conventions}
+\date{}
+
+\usepackage[linktoc=all,pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  What it is and what it shall be.
+\end{abstract}
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+
+This document describes the conventions used to form
+\textit{identifiers} for the \textit{elements} that make up the
+single-phase protoDUNE (pD) experiment.  The main goal is to collect
+existing conventions for \textit{physical} identifiers (see
+section~\ref{sec:physlog}) and assert a common \textit{logical}
+convention (again see section~\ref{sec:physlog}) which can be followed
+by a large fraction of the experiment's \textit{domains}.
+
+Experiment \textit{elements}, here, are atomic parts of the experiment
+(eg, one sense wire segment) or are aggregations of elements (eg, one
+contiguous sense wire conductor).  Different groups within the DUNE
+collaboration develop their own conventions which cover their
+particular \textit{convention domain}.  Domains may overlap between
+groups and inconsistent conventions may evolve to cover these
+overlaps.  
+
+\subsection{Physical and Logical Identifiers}
+\label{sec:physlog}
+
+Identifiers, here, are concise numerical or alpha-numerical labels
+given to elements of the experiment apparatus.  They are classified
+into two distinct categories which are called here \textit{physical}
+and \textit{logical} identifiers.  They are distinguished as:
+\begin{description}
+\item[physical identifiers] label each produced instance of some type
+  of element.
+
+\item[logical identifier] label a location or ``niche'' at which
+  physical elements are placed in the experiment. 
+\end{description}
+
+\textit{Physical identifiers} are typically in the form of a serial
+number or otherwise unique identifier assigned to each manufactured
+part (or aggregation).  A physical identifier is uniquely determined
+by the domain that produced them.  Eg, it is assumed that will there
+never be more than one serial number assigned to a given physical
+element.  Elements which are aggregates of other elements should
+ideally be given physical identifiers that uniquely represent their
+aggregation.  If an aggregate has an element replaced then the result
+should be considered a uniquely new aggregate.  
+
+\textit{Logical identifiers} indicate a ``niche'' or a ``role'' in the
+detector which a physical element supplies.  A niche has a conceptual
+location in the experiment.  This may be known in absolute terms (eg,
+the most upstream APA on the right side of the beam) or in relative
+terms (eg, wire segment 4 is next to wire segment 3).  An aggregate of
+niches can itself be identified.  A conductor is composed of multiple
+wire segments and an FEMB has multiple ASICs.  In most cases there
+exists an \textit{array} of niches of common type (``wire segments in
+a plane'' or ``channels in an ADC'').  In such cases it is desired to
+produce a logical identifier which expresses an individual niche as
+label identifying the array and an offset into that array (eg, ``U
+wire 42'').  Ideally this offset is 1-based so that 0 may be reserved
+to indicate an error.  However, for some this 1-base can lead to
+confusion in software and is already in conflict with some established
+conventions and so 0-based array offsets are used.
+
+\subsection{Associations}
+
+While a physical identifier is (ideally) uniquely determined by the
+domain that fabricates it, a logical identifier may differ among the
+domains that must refer to it.  Even within one domain, identifiers
+may differ over time (eg, different versions of detector geometry used
+in simulations).  Giving explicit identifiers being assigned to
+physical or logical aggregates, each set of identifiers can be
+organized into a hierarchy.  As physical elements are installed into
+logical niches a mapping between a physical hierarchy and any given
+logical hierarchy is formed.  This mapping must be traversed in both
+directions.  And, this mapping must evolve during installation and
+potentially later if parts fail or are otherwise replaced.
+
+Besides aggregation (``this WIB is in this WIEC''), logical
+identifiers may be associated through \textit{connectivity}.
+Connectivity can be between elements of the same type (``this APA is
+adjacent to this other APA'') and elements of different types (``this
+wire conductor is connected to this FE ASIC channel'').
+
+Both physical and logical identifiers have associated information.
+Physical identifiers can have associated performance or QA/QC
+parameters.  Logical identifiers can have associated quantities giving
+the location and extent taken by the physical part.
+
+These associated parameters may change over time and between domains.
+Maintaining these associations is important but is not considered part
+of the scope for the identifier conventions themselves.
+
+\section{Domain Conventions}
+
+As described above, this note assumes one can segment the problem into
+\textit{convention domains}. 
+This document is restricted to a subset of all domain conventions
+that are relevant to the analysis of the experiment data and for
+communicating with domain experts any issues that may be found in the
+course of analyzing the experiment data.  Experiment data, for the
+purposes of this note, consists of that directly acquired by the
+detector DAQ, the simulation of this data as well as any acquired
+through quality assurance (QA) and control (QC) processes (eg cold
+electronics testing).
+
+Ideally, a domain is responsible for assigning a globally unique
+\textit{physical} identifier to each part (including an aggregation)
+that it produces.  However, it is possible for parts to be passed
+between domains for further aggregation and new physical identifiers
+invented and assigned.  This becomes a bookkeeping challenge for the
+domains involved if or when there is a need to communicate issues back
+to the originating domain.
+
+Any domain may develop its own convention for \textit{logical}
+identifiers although it is desirable, and the goal of this note, to
+minimize this variability.
+
+The remaining part of this section collects the conventions relevant
+to the considered domains.  \fixme{What needs changing?}
+In section~\ref{sec:onering} a common
+logical convention is asserted.  In section~\ref{sec:impl} issues of
+implementation in support of this convention are discussed.
+
+\subsection{Engineering}
+\label{sec:eng}
+
+
+
+\subsection{Quality Assurance and Control}
+\label{sec:qaqc}
+
+\subsection{Construction and Installation}
+\label{sec:inst}
+
+\subsection{Slow Control}
+\label{sec:slow}
+
+\subsection{Electronics}
+\label{sec:elec}
+
+\subsection{DAQ}
+\label{sec:daq}
+
+Includes TPC, PDS, TI, CR fragments and oob BI.  Starts with BR, ends
+with EB and writing out a raw file.
+
+\subsection{Offline}
+\label{sec:offline}
+
+Simulation and Geometry.  LArSoft data products.  Offline databases?
+
+\subsubsection{LArSoft}
+
+\begin{itemize}
+\item protoDUNE-SP Geometry coordinate system, CPA/APA/TPC/wires \href{https://cdcvs.fnal.gov/redmine/projects/dunetpc/wiki/DUNE_Geometries#ProtoDUNE-SP-Geometry}{(link)}
+\end{itemize}
+
+\section{Common Convention}
+\label{sec:onering}
+
+Write this section once enough from the domains are known.  But, it
+will probably draw heavily from what LArSoft does now.
+
+Include table of as-designed multiplicities (asic per femb, channel per asic, etc).
+
+\section{Implementation Issues}
+\label{sec:impl}
+
+What work needs to be done.
+
+\end{document}
